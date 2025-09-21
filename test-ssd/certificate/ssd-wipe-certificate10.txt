@@ -1,0 +1,9 @@
+--- SSD Wipe Certificate of Authenticity ---
+Date: Sun, 21 Sep 2025 07:20:17 GMT
+
+Serial Number: WD-WDS200T2B0A-XYZ-2025
+Model: Western Digital Blue 2TB
+Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
+Wipe Completed Timestamp: Sun, 21 Sep 2025 02:30:00 GMT
+-------------------------------------------
+Verified via SSD Wipe Certificate Tool

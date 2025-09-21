@@ -1,0 +1,9 @@
+--- SSD Wipe Certificate of Authenticity ---
+Date: Sat, 20 Sep 2025 10:24:23 GMT
+
+Serial Number: SNV2S-2000G-2309A
+Model: Kingston NV2 2TB
+Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
+Wipe Completed Timestamp: Fri, 19 Sep 2025 22:00:00 GMT
+-------------------------------------------
+Verified via SSD Wipe Certificate Tool

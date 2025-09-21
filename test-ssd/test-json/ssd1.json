@@ -1,0 +1,8 @@
+{
+  "recipient": "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
+  "ssdSerialNumber": "S6B1NS0T456789",
+  "ssdModel": "Crucial MX500 2TB",
+  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
+  "timestamp": 1758315600,
+  "tokenURI": "ipfs://bafybeigwgqgi3h75s3g26t4h27ut3624okp3bfp644f6u6k5t4t3z4q7y"
+}

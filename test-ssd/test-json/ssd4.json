@@ -1,0 +1,8 @@
+{
+  "recipient": "0x4e35251a5b8678c015d22c52a2333e5669f29f04",
+  "ssdSerialNumber": "SNV2S-2000G-2309A",
+  "ssdModel": "Kingston NV2 2TB",
+  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
+  "timestamp": 1758319200,
+  "tokenURI": "ipfs://bafybeibcd2efgh3ijkl4mnop5qrst6uvwx7yzabcdefg1234567"
+}

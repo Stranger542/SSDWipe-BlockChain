@@ -1,0 +1,19 @@
+{
+  "name": "ssd-wipe-app",
+  "version": "1.0.0",
+  "description": "App to mint SSD Wipe Certificates.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "ethers": "^6.7.1"
+  }
+}

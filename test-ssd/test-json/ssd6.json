@@ -1,0 +1,8 @@
+{
+  "recipient": "0x63fac9201494f0bd17b989209fae4d6233d9b6de",
+  "ssdSerialNumber": "SAMSUNG-MZ-V8V500BW-2025",
+  "ssdModel": "Samsung 980 500GB",
+  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
+  "timestamp": 1758326400,
+  "tokenURI": "ipfs://bafybeimnop5qrst6uvwx7yzabcdefg1234567bcd2efgh3ijkl4"
+}

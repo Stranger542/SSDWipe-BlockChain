@@ -1,0 +1,9 @@
+--- SSD Wipe Certificate of Authenticity ---
+Date: Sat, 20 Sep 2025 18:46:53 GMT
+
+Serial Number: SAMSUNG-MZ-V7S1T0B-AM-2025
+Model: Samsung 870 EVO 1TB
+Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
+Wipe Completed Timestamp: Sun, 21 Sep 2025 00:00:00 GMT
+-------------------------------------------
+Verified via SSD Wipe Certificate Tool

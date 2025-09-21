@@ -1,0 +1,8 @@
+{
+  "recipient": "0x9876543210987654321098765432109876543210",
+  "ssdSerialNumber": "KNG202308A5B76C",
+  "ssdModel": "Kingston NV2 500GB",
+  "wipeMethod": "NIST 800-88 Clear",
+  "timestamp": 1758294000,
+  "tokenURI": "ipfs://bafybeic1b2a3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x"
+}

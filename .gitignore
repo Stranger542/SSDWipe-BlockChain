@@ -1,0 +1,21 @@
+# Node.js dependencies
+/ssd-contracts-v2/node_modules
+/ssd-wipe-app/node_modules
+
+# Environment variables (VERY IMPORTANT)
+/ssd-contracts-v2/.env
+/ssd-wipe-app/.env
+
+# Hardhat build artifacts and cache
+/ssd-contracts-v2/artifacts
+/ssd-contracts-v2/cache
+/ssd-contracts-v2/coverage
+/ssd-contracts-v2/coverage.json
+/ssd-contracts-v2/typechain-types
+
+# Electron Forge output folder
+/ssd-wipe-app/out
+
+# Operating System files
+.DS_Store
+Thumbs.db

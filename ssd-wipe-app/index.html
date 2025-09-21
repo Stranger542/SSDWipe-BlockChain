@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SSD Wipe Certificate Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>SSD Wipe Certificate Tool</h1>
+
+    <div class="tab-nav">
+        <button class="tab-link active" onclick="openTab(event, 'Minter')">Mint Certificate</button>
+        <button class="tab-link" onclick="openTab(event, 'Verifier')">Verify Certificate</button>
+    </div>
+
+    <div id="Minter" class="tab-content" style="display: block;">
+        <div class="container">
+            <button id="loadFileBtn">Load Wipe Data File</button>
+            <div id="details" class="details-box">
+                <p><strong>Status:</strong> Waiting for file...</p>
+            </div>
+            <button id="generateBtn" disabled>Save Local Certificate</button>
+            
+            <div id="recommendation" class="recommend-box hidden">
+                <p>✅ Local certificate saved! For maximum security, uploading to the blockchain is recommended.</p>
+            </div>
+
+            <hr>
+            <div class="checkbox-group">
+                <input type="checkbox" id="uploadCheckbox">
+                <label for="uploadCheckbox">Upload certificate to blockchain</label>
+            </div>
+            <div id="blockchainSection" class="hidden">
+                <div class="input-group">
+                    <label for="privateKeyInput">Operator Private Key:</label>
+                    <input type="password" id="privateKeyInput" placeholder="Enter your private key securely">
+                </div>
+                <button id="mintBtn">Mint to Blockchain</button>
+            </div>
+        </div>
+        <div id="status" class="status-box">
+            <p>Application ready.</p>
+        </div>
+    </div>
+
+    <div id="Verifier" class="tab-content">
+        <div class="container">
+            <button id="loadVerifyFileBtn">Load Certificate .txt File for Verification</button>
+            <div class="input-group">
+                <label for="tokenIdInput">Enter Token ID:</label>
+                <input type="number" id="tokenIdInput" placeholder="e.g., 0, 1, 2...">
+            </div>
+            <button id="verifyBtn" disabled>Verify Certificate</button>
+        </div>
+        <div id="verifyStatus" class="status-box">
+            <p>Verifier ready.</p>
+        </div>
+    </div>
+
+    <script src="./renderer.js"></script>
+</body>
+</html>

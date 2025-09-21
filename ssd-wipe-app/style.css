@@ -1,0 +1,68 @@
+body { font-family: sans-serif; background-color: #f4f4f4; color: #333; padding: 20px; }
+h1 { text-align: center; color: #0056b3; }
+.container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-bottom: 15px; }
+button:hover { background-color: #0056b3; }
+button:disabled { background-color: #ccc; cursor: not-allowed; }
+.details-box, .status-box { background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 4px; padding: 15px; margin-bottom: 15px; }
+p { margin: 5px 0; }
+.input-group { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; font-weight: bold; }
+input[type="password"] { width: 95%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; }
+
+.hidden {
+    display: none;
+}
+.checkbox-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.checkbox-group label {
+    margin-left: 10px;
+    font-weight: normal;
+}
+hr {
+    margin: 20px 0;
+    border-color: #eee;
+}
+
+.tab-nav {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.tab-link {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    width: auto;
+    color: #0056b3;
+}
+.tab-link:hover {
+    background-color: #ddd;
+}
+.tab-link.active {
+    background-color: #ccc;
+    font-weight: bold;
+}
+.tab-content {
+    display: none;
+}
+input[type="number"] {
+     width: 95%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px;
+}
+.recommend-box {
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: #0056b3;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 4px;
+    text-align: center;
+}

@@ -1,0 +1,9 @@
+--- SSD Wipe Certificate of Authenticity ---
+Date: Sat, 20 Sep 2025 09:40:41 GMT
+
+Serial Number: S6B1NS0T456789
+Model: Crucial MX500 2TB
+Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
+Wipe Completed Timestamp: Fri, 19 Sep 2025 21:00:00 GMT
+-------------------------------------------
+Verified via SSD Wipe Certificate Tool
