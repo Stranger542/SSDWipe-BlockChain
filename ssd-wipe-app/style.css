@@ -1,68 +1,259 @@
-body { font-family: sans-serif; background-color: #f4f4f4; color: #333; padding: 20px; }
-h1 { text-align: center; color: #0056b3; }
-.container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-bottom: 15px; }
-button:hover { background-color: #0056b3; }
-button:disabled { background-color: #ccc; cursor: not-allowed; }
-.details-box, .status-box { background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 4px; padding: 15px; margin-bottom: 15px; }
-p { margin: 5px 0; }
-.input-group { margin-bottom: 15px; }
-label { display: block; margin-bottom: 5px; font-weight: bold; }
-input[type="password"] { width: 95%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; }
+:root {
+    --color-primary: #3b82f6;
+    --color-primary-hover: #60a5fa;
+    --color-success: #22c55e;
+    --color-danger: #ef4444;
+    --color-bg: #111827;
+    --color-card-bg: #1f2937;
+    --color-text: #e5e7eb;
+    --color-text-light: #9ca3af;
+    --color-border: #374151;
+    --font-family: 'Inter', sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.2s ease-in-out;
+}
 
-.hidden {
-    display: none;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.checkbox-group {
-    margin-bottom: 20px;
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    padding: 2rem;
     display: flex;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    
+    background-image: 
+        repeating-linear-gradient(0deg, rgba(55, 65, 81, 0.25) 0, rgba(55, 65, 81, 0.25) 1px, transparent 1px, transparent 50px),
+        repeating-linear-gradient(90deg, rgba(55, 65, 81, 0.25) 0, rgba(55, 65, 81, 0.25) 1px, transparent 1px, transparent 50px),
+        linear-gradient(135deg, #111827 0%, #0c101b 100%);
+
+    background-attachment: fixed;
+    background-size: cover;
 }
-.checkbox-group label {
-    margin-left: 10px;
-    font-weight: normal;
+
+.app-container {
+    width: 100%;
+    max-width: 650px;
 }
-hr {
-    margin: 20px 0;
-    border-color: #eee;
+
+header h1 {
+    text-align: center;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+h1 i {
+    color: var(--color-primary);
+    margin-right: 0.5rem;
 }
 
 .tab-nav {
-    overflow: hidden;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    text-align: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: 2rem;
 }
+
 .tab-link {
-    background-color: inherit;
+    flex: 1;
+    padding: 1rem 0.5rem;
+    background: none;
     border: none;
-    outline: none;
     cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-    width: auto;
-    color: #0056b3;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    transition: color var(--transition-speed), border-color var(--transition-speed);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
+
 .tab-link:hover {
-    background-color: #ddd;
+    color: var(--color-primary);
 }
+
 .tab-link.active {
-    background-color: #ccc;
-    font-weight: bold;
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
 }
+
 .tab-content {
     display: none;
 }
-input[type="number"] {
-     width: 95%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px;
+
+.content-card {
+    background: var(--color-card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
-.recommend-box {
-    background-color: #e6f7ff;
-    border: 1px solid #91d5ff;
-    color: #0056b3;
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 4px;
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 0.5rem 0;
+}
+
+button {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.button-primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.button-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+}
+
+.button-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.button-secondary:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+button:disabled {
+    background-color: #374151;
+    color: var(--color-text-light);
+    cursor: not-allowed;
+    border-color: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: var(--transition-speed);
+}
+
+input::placeholder {
+    color: var(--color-text-light);
+}
+
+input[type="password"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    color: var(--color-text-light);
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    width: 1.25em;
+    height: 1.25em;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+}
+
+.details-box,
+.status-box,
+.info-box {
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    line-height: 1.6;
+}
+
+.status-box {
+    margin-top: 1.5rem;
     text-align: center;
+    font-weight: 500;
+}
+
+.status-box p {
+    color: var(--color-text-light);
+    word-break: break-all;
+}
+
+.info-box.success {
+    background-color: rgba(34, 197, 94, 0.1);
+    border-color: var(--color-success);
+    color: var(--color-success);
+    font-weight: 500;
+}
+
+.status-box p[style*="color: red;"],
+.status-box p[style*="color:red"] {
+    color: var(--color-danger) !important;
+    font-weight: 500;
+}
+
+.status-box p[style*="color: red;"]::before,
+.status-box p[style*="color:red"]::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f071";
+    margin-right: 0.75rem;
+}
+
+.hidden {
+    display: none;
 }
