@@ -1,0 +1,17 @@
+{
+  "subject": {
+    "commonName": "SSD Wipe Certificate Authority",
+    "countryName": "US",
+    "stateOrProvinceName": "California",
+    "localityName": "San Francisco",
+    "organizationName": "SSD Wipe Solutions",
+    "organizationalUnitName": "Certificate Authority",
+    "emailAddress": "ca@ssdwipe.com"
+  },
+  "passphrase": "ssdwipe123",
+  "serialNumber": "01",
+  "validFrom": "2025-09-22T12:51:32.214Z",
+  "validUntil": "2030-09-22T12:51:32.214Z",
+  "keySize": 2048,
+  "fingerprint": "6206251fff22a2ce7c5e868bc3135e309a0a3609"
+}
