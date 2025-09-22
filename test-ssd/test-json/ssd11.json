@@ -1,0 +1,8 @@
+{
+  "recipient": "0xF39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "ssdSerialNumber": "SAMSUNG-MZ-V8V1T0B-AM-2025A",
+  "ssdModel": "Samsung 870 QVO 1TB",
+  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
+  "timestamp": 1758499200,
+  "tokenURI": "ipfs://bafybeifastfwdym462omr56utv6be2s76swt7z22tctu442g5lo3cnq4ee"
+}

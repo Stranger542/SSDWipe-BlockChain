@@ -1,9 +1,0 @@
---- SSD Wipe Certificate of Authenticity ---
-Date: Sat, 20 Sep 2025 18:12:20 GMT
-
-Serial Number: SEAGATE-ZA250CM1A002
-Model: Seagate Barracuda Q1 240GB
-Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
-Wipe Completed Timestamp: Sat, 20 Sep 2025 03:00:00 GMT
--------------------------------------------
-Verified via SSD Wipe Certificate Tool

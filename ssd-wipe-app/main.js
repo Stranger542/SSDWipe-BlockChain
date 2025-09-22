@@ -90,7 +90,7 @@ ipcMain.handle('dialog:saveFile', async (event, certificateText) => {
   return { success: false, error: 'Save dialog canceled.' };
 });
 
-// Handler for minting the certificate
+// In main.js, replace the existing 'blockchain:mint' handler
 ipcMain.handle('blockchain:mint', async (event, args) => {
     const { wipeData, privateKey, localCertificateHash } = args;
     try {
@@ -99,7 +99,7 @@ ipcMain.handle('blockchain:mint', async (event, args) => {
         const certificateContract = new ethers.Contract(certificateAddress, certificateABI, wallet);
 
         const tx = await certificateContract.mintCertificate(
-            ethers.getAddress(wipeData.recipient.toLowerCase()), 
+            ethers.getAddress(wipeData.recipient),
             wipeData.ssdSerialNumber,
             wipeData.ssdModel,
             wipeData.wipeMethod,
@@ -107,14 +107,42 @@ ipcMain.handle('blockchain:mint', async (event, args) => {
             wipeData.tokenURI,
             localCertificateHash
         );
+
+        // Wait for the transaction to be mined
         const receipt = await tx.wait();
-        return { success: true, blockNumber: receipt.blockNumber, hash: tx.hash };
+
+        // --- NEW: Find the event and extract the Token ID ---
+        const eventLog = receipt.logs.find(log => {
+            try {
+                const parsedLog = certificateContract.interface.parseLog(log);
+                return parsedLog && parsedLog.name === 'CertificateMinted';
+            } catch (error) {
+                return false;
+            }
+        });
+
+        if (!eventLog) {
+            throw new Error("CertificateMinted event not found in transaction receipt.");
+        }
+        
+        const parsedLog = certificateContract.interface.parseLog(eventLog);
+        const tokenId = Number(parsedLog.args.tokenId); // Convert BigInt to number
+
+        // --- NEW: Fetch the details using the new Token ID ---
+        const details = await certificateContract.wipeDetailsLog(tokenId);
+        
+        return { 
+            success: true, 
+            hash: tx.hash,
+            tokenId: tokenId, // Add tokenId to the result
+            verificationHash: details.verificationHash // Add verificationHash to the result
+        };
+        
     } catch (error) {
         console.error(error);
         return { success: false, error: error.reason || error.message };
     }
 });
-
 // Handler for fetching hash from the blockchain
 ipcMain.handle('blockchain:verify', async (event, tokenId) => {
     try {

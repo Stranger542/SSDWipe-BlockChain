@@ -1,9 +1,0 @@
---- SSD Wipe Certificate of Authenticity ---
-Date: Sat, 20 Sep 2025 10:32:27 GMT
-
-Serial Number: CT500P3SSD8-US-01
-Model: Crucial P3 500GB NVMe
-Wipe Method: NIST 800-88 Clear
-Wipe Completed Timestamp: Fri, 19 Sep 2025 23:00:00 GMT
--------------------------------------------
-Verified via SSD Wipe Certificate Tool

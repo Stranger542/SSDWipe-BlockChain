@@ -1,9 +1,0 @@
---- SSD Wipe Certificate of Authenticity ---
-Date: Sat, 20 Sep 2025 09:35:05 GMT
-
-Serial Number: WD-WDS100T2B0A-00SM50
-Model: WD Blue SA510 1TB
-Wipe Method: DoD 5220.22-M
-Wipe Completed Timestamp: Fri, 19 Sep 2025 19:00:00 GMT
--------------------------------------------
-Verified via SSD Wipe Certificate Tool

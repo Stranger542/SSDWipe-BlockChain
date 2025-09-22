@@ -82,28 +82,31 @@ uploadCheckbox.addEventListener('change', () => {
     blockchainSection.classList.toggle('hidden', !uploadCheckbox.checked);
 });
 
+// In renderer.js, replace the existing mintBtn event listener
 mintBtn.addEventListener('click', async () => {
     const privateKey = privateKeyInput.value.trim();
-    
-    // This check ensures the local certificate and its hash have been generated first
     if (!wipeData || !localCertHash) {
         updateStatus("Please generate and save the local certificate first.", true);
         return;
     }
-
     if (privateKey.length !== 64 && privateKey.length !== 66) { 
         updateStatus("Invalid private key format. It must be 64 or 66 characters long.", true); 
         return; 
     }
-
     updateStatus("Sending data to main process for minting...");
     mintBtn.disabled = true;
     
-    // This passes all the necessary data, including the hash
     const result = await window.electronAPI.mintCertificate({ wipeData, privateKey, localCertificateHash: localCertHash });
     
     if (result.success) {
-        updateStatus(`✅ Certificate minted to blockchain! Tx Hash: ${result.hash}`, false);
+        // --- MODIFIED: Display the new information ---
+        updateStatus(
+            `✅ Certificate minted successfully!<br>
+             Tx Hash: ${result.hash}<br>
+             Token ID: ${result.tokenId}<br>
+             Verification Hash: ${result.verificationHash}`, 
+            false
+        );
     } else {
         updateStatus(`Error: ${result.error}`, true);
     }

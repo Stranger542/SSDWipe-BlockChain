@@ -1,9 +1,9 @@
 --- SSD Wipe Certificate of Authenticity ---
-Date: Sat, 20 Sep 2025 18:46:53 GMT
+Date: Mon, 22 Sep 2025 08:53:33 GMT
 
-Serial Number: SAMSUNG-MZ-V7S1T0B-AM-2025
-Model: Samsung 870 EVO 1TB
+Serial Number: WD-WDS200T2B0A-XYZ-2025
+Model: Western Digital Blue 2TB
 Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
-Wipe Completed Timestamp: Sun, 21 Sep 2025 00:00:00 GMT
+Wipe Completed Timestamp: Sun, 21 Sep 2025 02:30:00 GMT
 -------------------------------------------
 Verified via SSD Wipe Certificate Tool
