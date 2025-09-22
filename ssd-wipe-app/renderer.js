@@ -69,7 +69,7 @@ generateBtn.addEventListener('click', async () => {
     localCertHash = await window.electronAPI.calculateHash(certificateText);
     console.log("Generated Certificate Hash:", localCertHash);
 
-    const result = await window.electronAPI.saveCertificate(certificateText);
+    const result = await window.electronAPI.savePdfAndSign(certificateText);
     if (result.success) {
         updateStatus(`Local certificate saved to: ${result.path}`);
         recommendationDiv.classList.remove('hidden'); // Show recommendation

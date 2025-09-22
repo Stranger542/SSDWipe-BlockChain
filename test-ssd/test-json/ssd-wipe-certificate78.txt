@@ -1,0 +1,9 @@
+--- SSD Wipe Certificate of Authenticity ---
+Date: Sun, 21 Sep 2025 11:12:41 GMT
+
+Serial Number: KNG202308A5B76C
+Model: Kingston NV2 500GB
+Wipe Method: NIST 800-88 Clear
+Wipe Completed Timestamp: Fri, 19 Sep 2025 15:00:00 GMT
+-------------------------------------------
+Verified via SSD Wipe Certificate Tool
