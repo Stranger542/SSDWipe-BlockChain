@@ -1,9 +1,0 @@
---- SSD Wipe Certificate of Authenticity ---
-Date: Sun, 21 Sep 2025 07:31:33 GMT
-
-Serial Number: SAMSUNG-MZ-V8V500BW-2025
-Model: Samsung 980 500GB
-Wipe Method: NIST 800-88 Purge via ATA SECURE ERASE
-Wipe Completed Timestamp: Sat, 20 Sep 2025 00:00:00 GMT
--------------------------------------------
-Verified via SSD Wipe Certificate Tool

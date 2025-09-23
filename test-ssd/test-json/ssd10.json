@@ -1,8 +1,0 @@
-{
-  "recipient": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-  "ssdSerialNumber": "WD-WDS200T2B0A-XYZ-2025",
-  "ssdModel": "Western Digital Blue 2TB",
-  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
-  "timestamp": 1758421800,
-  "tokenURI": "ipfs://bafybeicg2kl2wzz4go7f27g4d2y3z1x2c3v4b5n6m7l8k9j0p9o8i7"
-}

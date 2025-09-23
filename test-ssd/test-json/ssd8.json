@@ -1,8 +1,0 @@
-{
-  "recipient": "0x4e35251a5b8678c015d22c52a2333e5669f29f04",
-  "ssdSerialNumber": "SAMSUNG-MZ-V7S1T0B-AM-2025",
-  "ssdModel": "Samsung 870 EVO 1TB",
-  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
-  "timestamp": 1758412800,
-  "tokenURI": "ipfs://bafybeigcl2wsnrj5l6ws7afpm5l3wgpz3gagz5j2e6c7j3k5l4w3x2y9z4"
-}

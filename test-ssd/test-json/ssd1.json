@@ -1,8 +1,42 @@
 {
-  "recipient": "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
-  "ssdSerialNumber": "S6B1NS0T456789",
-  "ssdModel": "Crucial MX500 2TB",
-  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
-  "timestamp": 1758315600,
-  "tokenURI": "ipfs://bafybeigwgqgi3h75s3g26t4h27ut3624okp3bfp644f6u6k5t4t3z4q7y"
+  "certificate_id": "uuid-1234-5678",
+  "generated_by": "DataWipe Tool v1.0",
+  "generated_at": "2025-09-23T13:45:00Z",
+  "operator": "admin",
+  "host": "ubuntu-vm-01",
+  "device": {
+    "device_name": "/dev/sda",
+    "device_type": "SSD",
+    "serial_number": "12345XYZ",
+    "model": "Samsung 870 EVO",
+    "capacity_bytes": 512110190592,
+    "logical_block_size": 512,
+    "rotational": false
+  },
+  "wipe_process": {
+    "wipe_method": "software_overwrite_3pass",
+    "start_time": "2025-09-23T13:46:00Z",
+    "end_time": "2025-09-23T14:20:00Z",
+    "duration_seconds": 2040,
+    "passes": 3,
+    "chunk_size": 8388608,
+    "errors": []
+  },
+  "verification": {
+    "pre_wipe_hash": "ab12cd34ef...",
+    "post_wipe_hash": "ff45aa67bc...",
+    "verification_status": "success"
+  },
+  "audit": {
+    "related_logs": [
+      "logs/hdparm_I.txt",
+      "logs/nvme_format.txt",
+      "logs/compare_results_20250923_134500.json"
+    ],
+    "script_versions": {
+      "sector_hash.py": "hash-or-version",
+      "wiping.sh": "hash-or-version"
+    },
+    "digital_signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjZXJ0aWZpY2F0ZV9pZCI6InV1aWQtMTIzNC01Njc4IiwiZ2VuZXJhdGVkX2J5IjoiRGF0YVdpcGUgVG9vbCB2MS4wIiwiZ2VuZXJhdGVkX2F0IjoiMjAyNS0wOS0yM1QxMzo0NTowMFoiLCJvcGVyYXRvciI6ImFkbWluIiwiaG9zdCI6InVidW50dS12bS0wMSIsImRldmljZSI6eyJkZXZpY2VfbmFtZSI6Ii9kZXYvc2RhIiwiZGV2aWNlX3R5cGUiOiJTU0QiLCJzZXJpYWxfbnVtYmVyIjoiMTIzNDVYWVoiLCJtb2RlbCI6IlNhbXN1bmcgODcwIEVWTyIsImNhcGFjaXR5X2J5dGVzIjo1MTIxMTAxOTA1OTIsImxvZ2ljYWxfYmxvY2tfc2l6ZSI6NTEyLCJyb3RhdGlvbmFsIjpmYWxzZX0sIndpcGVfcHJvY2VzcyI6eyJ3aXBlX21ldGhvZCI6InNvZnR3YXJlX292ZXJ3cml0ZV8zcGFzcyIsInN0YXJ0X3RpbWUiOiIyMDI1LTA5LTIzVDEzOjQ2OjAwWiIsImVuZF90aW1lIjoiMjAyNS0wOS0yM1QxNDoyMDowMFoiLCJkdXJhdGlvbl9zZWNvbmRzIjoyMDQwLCJwYXNzZXMiOjMsImNodW5rX3NpemUiOjgzODg2MDgsImVycm9ycyI6W119LCJ2ZXJpZmljYXRpb24iOnsicHJlX3dpcGVfaGFzaCI6ImFiMTJjZDM0ZWYuLi4iLCJwb3N0X3dpcGVfaGFzaCI6ImZmNDVhYTY3YmMuLi4iLCJ2ZXJpZmljYXRpb25fc3RhdHVzIjoic3VjY2VzcyJ9LCJhdWRpdCI6eyJyZWxhdGVkX2xvZ3MiOlsibG9ncy9oZHBhcm1fSS50eHQiLCJsb2dzL252bWVfZm9ybWF0LnR4dCIsImxvZ3MvY29tcGFyZV9yZXN1bHRzXzIwMjUwOTIzXzEzNDUwMC5qc29uIl0sInNjcmlwdF92ZXJzaW9ucyI6eyJzZWN0b3JfaGFzaC5weSI6Imhhc2gtb3ItdmVyc2lvbiIsIndpcGluZy5zaCI6Imhhc2gtb3ItdmVyc2lvbiJ9LCJkaWdpdGFsX3NpZ25hdHVyZSI6bnVsbH19.qK4SlY8CnPy8T9iig09mUC68YTd_zdz7gUXResG0M5k0kUq7AGcLC9Q3-uJkh2XE0wj4t7_abWKJ3YBVY2C_DrZ5hWiRXrf08aYw-xsKX8qPKwrM3--mNz9m_TVO6QyHGdnO4E4aFMqt-ZqpyCGAwTVF0LwdFVdT3e0xqIcFfSvZ9TL21B1g3ONDTf19FKHhPFrl4WOp8e2nt8cIXAhGxqXaZX1zSKQKyhONoGtAyNUDKCvQTtOdpNYhvqedV6H2rAl_C1cmWVHxaFFRWLkXUje3QU-CHztOms4hHp0HxAdAJlh7W2UEw5mcbcUNfc8QOHGzkS7Vf91lBWeEe9fLyg"
+  }
 }

@@ -1,9 +1,0 @@
---- SSD Wipe Certificate of Authenticity ---
-Date: Mon, 22 Sep 2025 09:15:46 GMT
-
-Serial Number: WD-WDS100T1X0E-00AFY0
-Model: WD Black SN850X 1TB NVMe
-Wipe Method: DoD 5220.22-M (3-pass)
-Wipe Completed Timestamp: Mon, 22 Sep 2025 01:00:00 GMT
--------------------------------------------
-Verified via SSD Wipe Certificate Tool

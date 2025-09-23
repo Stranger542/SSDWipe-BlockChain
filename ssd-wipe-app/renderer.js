@@ -1,6 +1,7 @@
 let wipeData = null;
-let localCertHash = null;
-let verifyFileData = null;
+let verifyWipeData = null;
+const recipientInput = document.getElementById('recipientInput');
+const tokenUriInput = document.getElementById('tokenUriInput');
 
 // --- Tab Handling ---
 function openTab(evt, tabName) {
@@ -19,10 +20,6 @@ function openTab(evt, tabName) {
 
 // --- Minter Tab Elements ---
 const loadFileBtn = document.getElementById('loadFileBtn');
-const generateBtn = document.getElementById('generateBtn');
-const recommendationDiv = document.getElementById('recommendation');
-const uploadCheckbox = document.getElementById('uploadCheckbox');
-const blockchainSection = document.getElementById('blockchainSection');
 const mintBtn = document.getElementById('mintBtn');
 const privateKeyInput = document.getElementById('privateKeyInput');
 const detailsDiv = document.getElementById('details');
@@ -37,16 +34,18 @@ const verifyStatus = document.getElementById('verifyStatus');
 // --- Minter Helper Functions ---
 function updateStatus(message, isError = false) { statusDiv.innerHTML = `<p>${message}</p>`; statusDiv.style.color = isError ? 'red' : 'black'; }
 function updateDetails(data) {
-    if (data) {
-        detailsDiv.innerHTML = `<p><strong>Status:</strong> File Loaded</p><p><strong>Serial:</strong> ${data.ssdSerialNumber}</p><p><strong>Model:</strong> ${data.ssdModel}</p><p><strong>Recipient:</strong> ${data.recipient}</p>`;
-        generateBtn.disabled = false;
-        localCertHash = null;
+    if (data && data.device) { // Check that data and the nested 'device' object exist
+        detailsDiv.innerHTML = `
+            <p><strong>Status:</strong> File Loaded</p>
+            <p><strong>Serial:</strong> ${data.device.serial_number}</p>
+            <p><strong>Model:</strong> ${data.device.model}</p>
+        `;
+        mintBtn.disabled = false;
     } else {
         detailsDiv.innerHTML = `<p><strong>Status:</strong> Waiting for file...</p>`;
-        generateBtn.disabled = true;
+        mintBtn.disabled = true;
     }
 }
-
 // --- Verifier Helper Function ---
 function updateVerifyStatus(message, isError = false) { verifyStatus.innerHTML = `<p>${message}</p>`; verifyStatus.style.color = isError ? 'red' : 'black'; }
 
@@ -54,59 +53,26 @@ function updateVerifyStatus(message, isError = false) { verifyStatus.innerHTML =
 loadFileBtn.addEventListener('click', async () => {
     wipeData = await window.electronAPI.openFile();
     updateDetails(wipeData);
-    recommendationDiv.classList.add('hidden'); // Hide recommendation on new file load
     if (wipeData) {
-        updateStatus("Wipe data loaded. Ready to generate local certificate.");
+        updateStatus("Wipe data loaded. Enter private key and mint.");
     } else {
         updateStatus("File selection canceled or file is invalid.", true);
     }
 });
 
-generateBtn.addEventListener('click', async () => {
-    if (!wipeData) return;
-    const certificateText = `--- SSD Wipe Certificate of Authenticity ---\nDate: ${new Date().toUTCString()}\n\nSerial Number: ${wipeData.ssdSerialNumber}\nModel: ${wipeData.ssdModel}\nWipe Method: ${wipeData.wipeMethod}\nWipe Completed Timestamp: ${new Date(wipeData.timestamp * 1000).toUTCString()}\n-------------------------------------------\nVerified via SSD Wipe Certificate Tool`;
-    
-    localCertHash = await window.electronAPI.calculateHash(certificateText);
-    console.log("Generated Certificate Hash:", localCertHash);
-
-    const result = await window.electronAPI.saveCertificate(certificateText);
-    if (result.success) {
-        updateStatus(`Local certificate saved to: ${result.path}`);
-        recommendationDiv.classList.remove('hidden'); // Show recommendation
-    } else if (result.error !== 'Save dialog canceled.') {
-        updateStatus(`Error saving file: ${result.error}`, true);
-    }
-});
-
-uploadCheckbox.addEventListener('change', () => {
-    blockchainSection.classList.toggle('hidden', !uploadCheckbox.checked);
-});
-
-// In renderer.js, replace the existing mintBtn event listener
 mintBtn.addEventListener('click', async () => {
     const privateKey = privateKeyInput.value.trim();
-    if (!wipeData || !localCertHash) {
-        updateStatus("Please generate and save the local certificate first.", true);
-        return;
-    }
-    if (privateKey.length !== 64 && privateKey.length !== 66) { 
-        updateStatus("Invalid private key format. It must be 64 or 66 characters long.", true); 
-        return; 
-    }
-    updateStatus("Sending data to main process for minting...");
+    if (!wipeData) { /*...*/ return; }
+    if (privateKey.length < 64) { /*...*/ return; }
+
+    updateStatus("Minting data to blockchain...");
     mintBtn.disabled = true;
     
-    const result = await window.electronAPI.mintCertificate({ wipeData, privateKey, localCertificateHash: localCertHash });
-    
+    // Add the private key to the data object
+    wipeData.privateKey = privateKey; 
+    const result = await window.electronAPI.storeCertificate({ detailedData: wipeData, privateKey: privateKey });
     if (result.success) {
-        // --- MODIFIED: Display the new information ---
-        updateStatus(
-            `✅ Certificate minted successfully!<br>
-             Tx Hash: ${result.hash}<br>
-             Token ID: ${result.tokenId}<br>
-             Verification Hash: ${result.verificationHash}`, 
-            false
-        );
+        updateStatus(`✅ Data stored successfully! Tx Hash: ${result.hash}`, false);
     } else {
         updateStatus(`Error: ${result.error}`, true);
     }
@@ -115,46 +81,51 @@ mintBtn.addEventListener('click', async () => {
 
 // --- Verifier Event Listeners ---
 loadVerifyFileBtn.addEventListener('click', async () => {
-    const fileContent = await window.electronAPI.openFileRawText();
-    if (fileContent !== null) {
-        verifyFileData = fileContent;
-        updateVerifyStatus("Certificate .txt file loaded. Enter Token ID and verify.");
+    verifyWipeData = await window.electronAPI.openFile();
+    if (verifyWipeData) {
+        tokenIdInput.value = ""; 
+        updateVerifyStatus("Wipe data file loaded. Enter Token ID and verify.");
         verifyBtn.disabled = false;
     } else {
-        updateVerifyStatus("File selection canceled.", true);
+        updateVerifyStatus("File selection canceled or file is invalid.", true);
         verifyBtn.disabled = true;
     }
 });
+// In renderer.js, replace the old verifyBtn event listener
 
+const certIdInput = document.getElementById('certIdInput'); // Get the new input field
 verifyBtn.addEventListener('click', async () => {
-    if (!verifyFileData) {
-        updateVerifyStatus("Please load a certificate .txt file first.", true);
+    if (!verifyWipeData) {
+        updateVerifyStatus("Please load a wipe data .json file first.", true);
         return;
     }
-    const tokenId = tokenIdInput.value;
-    if (tokenId === "") {
-        updateVerifyStatus("Please enter a Token ID.", true);
+    // Use the original 'tokenIdInput' variable to get the value
+    const certificateId = tokenIdInput.value.trim();
+    if (certificateId === "") {
+        updateVerifyStatus("Please enter a Certificate ID.", true);
         return;
     }
-    updateVerifyStatus("Verifying...");
+    updateVerifyStatus("🔍 Verifying... Fetching record from the blockchain.");
     verifyBtn.disabled = true;
-
-    const recalculatedHash = await window.electronAPI.calculateHash(verifyFileData);
-    
-    const blockchainResult = await window.electronAPI.verifyCertificate(tokenId);
-    
-    if (!blockchainResult.success) {
-        updateVerifyStatus(`Error fetching from blockchain: ${blockchainResult.error}`, true);
+    const result = await window.electronAPI.getCertificate(certificateId);
+    if (!result.success) {
+        updateVerifyStatus(`❌ Error: ${result.error}`, true);
         verifyBtn.disabled = false;
         return;
     }
-    
-    const originalHash = blockchainResult.localCertificateHash;
+    const blockchainData = result.data;
+    const localData = verifyWipeData;
 
-    if (recalculatedHash === originalHash) {
-        updateVerifyStatus(`✅ VERIFIED! The file is authentic. Hash: ${originalHash}`, false);
+    const isSerialMatch = blockchainData.serialNumber === localData.device.serial_number;
+    const isModelMatch = blockchainData.model === localData.device.model;
+    const isEndTimeMatch = blockchainData.endTime === localData.wipe_process.end_time;
+    const isOperatorMatch = blockchainData.operator === localData.operator;
+
+    if (isSerialMatch && isModelMatch && isEndTimeMatch && isOperatorMatch) {
+        updateVerifyStatus(`✅ VERIFIED! The data in the local file is authentic and matches the blockchain record.`, false);
     } else {
-        updateVerifyStatus(`❌ FORGERY DETECTED! File hash does not match the blockchain record.`, true);
+        updateVerifyStatus(`❌ FORGERY DETECTED! The local file's data does not match the immutable record on the blockchain.`, true);
     }
+
     verifyBtn.disabled = false;
 });

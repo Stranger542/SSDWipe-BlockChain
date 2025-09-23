@@ -1,16 +1,99 @@
+// --- LIBRARIES ---
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { ethers } = require('ethers');
-const CryptoJS = require('crypto-js'); // Added for hashing
+const CryptoJS = require('crypto-js');
+const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+const qrcode = require('qrcode');
 
 // --- CONFIGURATION ---
 // IMPORTANT: Use the addresses from your latest deployment
-const certificateAddress = "0x7fE1B88A7a02bd98C7748D37F9427C892f3c6413";
+const certificateAddress = "0x9565e61d7f1444Dd8d237b875832F403a742946f";
 const rpcUrl = "https://sepolia.infura.io/v3/21b3c6fcc4d64acab95cf11dbc713f83";
-// ABI for the final version of the smart contract
-const certificateABI = [ { "inputs": [ { "internalType": "address", "name": "_registryAddress", "type": "address" }, { "internalType": "address", "name": "initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "address", "name": "sender", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "internalType": "address", "name": "owner", "type": "address" } ], "name": "ERC721IncorrectOwner", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "ERC721InsufficientApproval", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "approver", "type": "address" } ], "name": "ERC721InvalidApprover", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "operator", "type": "address" } ], "name": "ERC721InvalidOperator", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "owner", "type": "address" } ], "name": "ERC721InvalidOwner", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "receiver", "type": "address" } ], "name": "ERC721InvalidReceiver", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "sender", "type": "address" } ], "name": "ERC721InvalidSender", "type": "error" }, { "inputs": [ { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "ERC721NonexistentToken", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "owner", "type": "address" } ], "name": "OwnableInvalidOwner", "type": "error" }, { "inputs": [ { "internalType": "address", "name": "account", "type": "address" } ], "name": "OwnableUnauthorizedAccount", "type": "error" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "approved", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" } ], "name": "ApprovalForAll", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": false, "internalType": "string", "name": "ssdSerialNumber", "type": "string" } ], "name": "CertificateMinted", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "owner", "type": "address" } ], "name": "CertificateRevoked", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "Transfer", "type": "event" }, { "inputs": [ { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "approve", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "owner", "type": "address" } ], "name": "balanceOf", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "getApproved", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "operator", "type": "address" } ], "name": "isApprovedForAll", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "recipient", "type": "address" }, { "internalType": "string", "name": "ssdSerialNumber", "type": "string" }, { "internalType": "string", "name": "ssdModel", "type": "string" }, { "internalType": "string", "name": "wipeMethod", "type": "string" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }, { "internalType": "string", "name": "_tokenURI", "type": "string" }, { "internalType": "bytes32", "name": "localCertificateHash", "type": "bytes32" } ], "name": "mintCertificate", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "name", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "operatorRegistry", "outputs": [ { "internalType": "contract OperatorRegistry", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "ownerOf", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "revokeCertificate", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "internalType": "bytes", "name": "data", "type": "bytes" } ], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "bool", "name": "approved", "type": "bool" } ], "name": "setApprovalForAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" } ], "name": "supportsInterface", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "", "type": "string" } ], "name": "tokenIdBySerial", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "tokenURI", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" } ], "name": "transferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "wipeDetailsLog", "outputs": [ { "internalType": "string", "name": "ssdSerialNumber", "type": "string" }, { "internalType": "string", "name": "ssdModel", "type": "string" }, { "internalType": "string", "name": "wipeMethod", "type": "string" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }, { "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "bytes32", "name": "verificationHash", "type": "bytes32" }, { "internalType": "bytes32", "name": "localCertificateHash", "type": "bytes32" } ], "stateMutability": "view", "type": "function" } ];
-// ------------------------------------
+
+// ABI for the new SSDWipeStorage.sol contract
+const certificateABI = [
+  {
+    "inputs": [ { "internalType": "address", "name": "initialOwner", "type": "address" } ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "string", "name": "certificateId", "type": "string" },
+      { "indexed": false, "internalType": "string", "name": "serialNumber", "type": "string" },
+      { "indexed": true, "internalType": "address", "name": "minter", "type": "address" }
+    ],
+    "name": "CertificateStored",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_certificateId",
+        "type": "string"
+      }
+    ],
+    "name": "getCertificateData",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "deviceType", "type": "string" },
+          { "internalType": "string", "name": "model", "type": "string" },
+          { "internalType": "string", "name": "serialNumber", "type": "string" },
+          { "internalType": "uint64", "name": "capacityBytes", "type": "uint64" },
+          { "internalType": "string", "name": "wipeMethod", "type": "string" },
+          { "internalType": "string", "name": "startTime", "type": "string" },
+          { "internalType": "string", "name": "endTime", "type": "string" },
+          { "internalType": "uint32", "name": "durationSeconds", "type": "uint32" },
+          { "internalType": "string", "name": "verificationStatus", "type": "string" },
+          { "internalType": "string", "name": "operator", "type": "string" },
+          { "internalType": "string", "name": "host", "type": "string" },
+          { "internalType": "string", "name": "certificateId", "type": "string" },
+          { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" },
+          { "internalType": "address", "name": "minter", "type": "address" }
+        ],
+        "internalType": "struct SSDWipeStorage.WipeCertificateData",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "deviceType", "type": "string" },
+          { "internalType": "string", "name": "model", "type": "string" },
+          { "internalType": "string", "name": "serialNumber", "type": "string" },
+          { "internalType": "uint64", "name": "capacityBytes", "type": "uint64" },
+          { "internalType": "string", "name": "wipeMethod", "type": "string" },
+          { "internalType": "string", "name": "startTime", "type": "string" },
+          { "internalType": "string", "name": "endTime", "type": "string" },
+          { "internalType": "uint32", "name": "durationSeconds", "type": "uint32" },
+          { "internalType": "string", "name": "verificationStatus", "type": "string" },
+          { "internalType": "string", "name": "operator", "type": "string" },
+          { "internalType": "string", "name": "host", "type": "string" },
+          { "internalType": "string", "name": "certificateId", "type": "string" },
+          { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" },
+          { "internalType": "address", "name": "minter", "type": "address" }
+        ],
+        "internalType": "struct SSDWipeStorage.WipeCertificateData",
+        "name": "_data",
+        "type": "tuple"
+      }
+    ],
+    "name": "storeCertificate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -25,18 +108,14 @@ function createWindow () {
   win.loadFile('index.html');
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
+app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// Handler for opening a JSON file (for Minter)
+// --- IPC HANDLERS ---
+// Open JSON data file
 ipcMain.handle('dialog:openFile', async () => {
   const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openFile'],
@@ -44,8 +123,8 @@ ipcMain.handle('dialog:openFile', async () => {
   });
   if (!canceled && filePaths.length > 0) {
     try {
-        const data = fs.readFileSync(filePaths[0], 'utf-8');
-        return JSON.parse(data);
+        const fileContent = fs.readFileSync(filePaths[0], 'utf-8');
+        return JSON.parse(fileContent); // Return the full detailed data
     } catch (error) {
         console.error("Failed to read or parse JSON file:", error);
         return null;
@@ -54,96 +133,45 @@ ipcMain.handle('dialog:openFile', async () => {
   return null;
 });
 
-// Handler for opening a raw text (.txt) file (for Verifier)
-ipcMain.handle('dialog:openFileRawText', async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-      title: 'Select Certificate File to Verify',
-      filters: [{ name: 'Text Files', extensions: ['txt'] }]
-  });
-  if (!canceled && filePaths.length > 0) {
-      try {
-          return fs.readFileSync(filePaths[0], 'utf-8');
-      } catch (error) {
-          console.error("Failed to read text file:", error);
-          return null;
-      }
-  }
-  return null;
-});
-
-// Handler for saving the certificate file
-ipcMain.handle('dialog:saveFile', async (event, certificateText) => {
-  const { canceled, filePath } = await dialog.showSaveDialog({
-    title: 'Save SSD Wipe Certificate',
-    defaultPath: `ssd-wipe-certificate.txt`,
-    filters: [{ name: 'Text Files', extensions: ['txt'] }]
-  });
-  if (!canceled && filePath) {
+// Handler for the streamlined "Generate & Mint" workflow
+ipcMain.handle('blockchain:store', async (event, args) => {
+    const { detailedData, privateKey } = args; // detailedData is the parsed JSON from ssd1.json
     try {
-      fs.writeFileSync(filePath, certificateText, 'utf-8');
-      return { success: true, path: filePath };
-    } catch (error) {
-      console.error('Failed to save the file:', error);
-      return { success: false, error: error.message };
-    }
-  }
-  return { success: false, error: 'Save dialog canceled.' };
-});
-
-// In main.js, replace the existing 'blockchain:mint' handler
-ipcMain.handle('blockchain:mint', async (event, args) => {
-    const { wipeData, privateKey, localCertificateHash } = args;
-    try {
+        // 1. Create the data object that EXACTLY matches the contract's struct
+       const certificateData = {
+    deviceType: detailedData.device.device_type,
+    model: detailedData.device.model,
+    serialNumber: detailedData.device.serial_number,
+    capacityBytes: detailedData.device.capacity_bytes,
+    wipeMethod: detailedData.wipe_process.wipe_method,
+    startTime: detailedData.wipe_process.start_time,
+    endTime: detailedData.wipe_process.end_time,
+    durationSeconds: detailedData.wipe_process.duration_seconds,
+    verificationStatus: detailedData.verification.verification_status,
+    operator: detailedData.operator,
+    host: detailedData.host,
+    certificateId: detailedData.certificate_id,
+    blockTimestamp: 0, // Contract will overwrite this with block.timestamp
+    minter: "0x0000000000000000000000000000000000000000" // Contract will overwrite this with msg.sender
+};
+        
+        // 2. Set up the wallet and contract instance
         const provider = new ethers.JsonRpcProvider(rpcUrl);
         const wallet = new ethers.Wallet(privateKey, provider);
-        const certificateContract = new ethers.Contract(certificateAddress, certificateABI, wallet);
+        // IMPORTANT: Use certificateAddress, not contractAddress
+        const contract = new ethers.Contract(certificateAddress, certificateABI, wallet);
 
-        const tx = await certificateContract.mintCertificate(
-            ethers.getAddress(wipeData.recipient),
-            wipeData.ssdSerialNumber,
-            wipeData.ssdModel,
-            wipeData.wipeMethod,
-            wipeData.timestamp,
-            wipeData.tokenURI,
-            localCertificateHash
-        );
+        // 3. Call the correct 'storeCertificate' function with the single data object
+        const tx = await contract.storeCertificate(certificateData);
+        await tx.wait();
 
-        // Wait for the transaction to be mined
-        const receipt = await tx.wait();
-
-        // --- NEW: Find the event and extract the Token ID ---
-        const eventLog = receipt.logs.find(log => {
-            try {
-                const parsedLog = certificateContract.interface.parseLog(log);
-                return parsedLog && parsedLog.name === 'CertificateMinted';
-            } catch (error) {
-                return false;
-            }
-        });
-
-        if (!eventLog) {
-            throw new Error("CertificateMinted event not found in transaction receipt.");
-        }
-        
-        const parsedLog = certificateContract.interface.parseLog(eventLog);
-        const tokenId = Number(parsedLog.args.tokenId); // Convert BigInt to number
-
-        // --- NEW: Fetch the details using the new Token ID ---
-        const details = await certificateContract.wipeDetailsLog(tokenId);
-        
-        return { 
-            success: true, 
-            hash: tx.hash,
-            tokenId: tokenId, // Add tokenId to the result
-            verificationHash: details.verificationHash // Add verificationHash to the result
-        };
-        
+        return { success: true, hash: tx.hash };
     } catch (error) {
-        console.error(error);
+        console.error("Error storing certificate:", error);
         return { success: false, error: error.reason || error.message };
     }
 });
-// Handler for fetching hash from the blockchain
+// Verify hash on blockchain
 ipcMain.handle('blockchain:verify', async (event, tokenId) => {
     try {
         const provider = new ethers.JsonRpcProvider(rpcUrl);
@@ -159,7 +187,49 @@ ipcMain.handle('blockchain:verify', async (event, tokenId) => {
     }
 });
 
-// NEW: Handler for calculating the hash
+// Calculate hash of data
 ipcMain.handle('tool:hash', (event, dataToHash) => {
     return '0x' + CryptoJS.SHA256(dataToHash).toString();
+});
+
+// Add this new handler to the end of main.js
+
+ipcMain.handle('blockchain:getCertificate', async (event, certificateId) => {
+    try {
+        // For read-only operations, we only need a provider, not a signer/wallet
+        const provider = new ethers.JsonRpcProvider(rpcUrl);
+        const contract = new ethers.Contract(certificateAddress, certificateABI, provider);
+
+        // Call the getCertificateData function from the smart contract
+        const details = await contract.getCertificateData(certificateId);
+
+        // The contract returns an array-like object. We'll convert it to a clean JS object.
+        const result = {
+            deviceType: details.deviceType,
+            model: details.model,
+            serialNumber: details.serialNumber,
+            capacityBytes: Number(details.capacityBytes), // Convert BigInt to Number
+            wipeMethod: details.wipeMethod,
+            startTime: details.startTime,
+            endTime: details.endTime,
+            durationSeconds: Number(details.durationSeconds),
+            verificationStatus: details.verificationStatus,
+            operator: details.operator,
+            host: details.host,
+            certificateId: details.certificateId,
+            blockTimestamp: Number(details.blockTimestamp),
+            minter: details.minter
+        };
+
+        // Check if a record was actually found
+        if (result.certificateId === "") {
+             return { success: false, error: "Certificate ID not found on the blockchain." };
+        }
+
+        return { success: true, data: result };
+
+    } catch (error) {
+        console.error("Error retrieving certificate:", error);
+        return { success: false, error: error.reason || error.message };
+    }
 });

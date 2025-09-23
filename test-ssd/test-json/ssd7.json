@@ -1,8 +1,0 @@
-{
-  "recipient": "0x8d3e80c01085521d715a6d3d820f1b5a5c5b3a1e",
-  "ssdSerialNumber": "SEAGATE-ZA250CM1A002",
-  "ssdModel": "Seagate Barracuda Q1 240GB",
-  "wipeMethod": "NIST 800-88 Purge via ATA SECURE ERASE",
-  "timestamp": 1758337200,
-  "tokenURI": "ipfs://bafybeidyqposi5qxe75hc62fl5g2k45pwgrgnddpt56t6o7h6a4k3x9z4y"
-}

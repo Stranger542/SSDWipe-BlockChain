@@ -25,38 +25,23 @@
             </button>
         </div>
 
-        <div id="Minter" class="tab-content" style="display: block;">
+       <div id="Minter" class="tab-content" style="display: block;">
             <section class="content-card">
                 <button id="loadFileBtn" class="button-primary">
-                    <i class="fa-solid fa-file-arrow-up"></i> Load Wipe Data File (.json)
+                    <i class="fa-solid fa-file-arrow-up"></i> 1. Load Wipe Data File (.json)
                 </button>
                 <div id="details" class="details-box">
                     <p><strong>Status:</strong> Waiting for file...</p>
                 </div>
-                <button id="generateBtn" class="button-secondary" disabled>
-                    <i class="fa-solid fa-file-download"></i> Save Local Certificate
+
+                <div class="input-group">
+                    <label for="privateKeyInput">2. Operator Private Key</label>
+                    <input type="password" id="privateKeyInput" placeholder="Enter your private key securely">
+                </div>
+
+                <button id="mintBtn" class="button-primary" disabled>
+                    <i class="fa-solid fa-cubes"></i> 3. Mint Certificate to Blockchain
                 </button>
-                
-                <div id="recommendation" class="info-box success hidden">
-                    <p><i class="fa-solid fa-circle-check"></i> Local certificate saved! For maximum security, minting to the blockchain is recommended.</p>
-                </div>
-
-                <hr>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="uploadCheckbox">
-                    <label for="uploadCheckbox">Mint certificate to the blockchain</label>
-                </div>
-                
-                <div id="blockchainSection" class="hidden">
-                    <div class="input-group">
-                        <label for="privateKeyInput">Operator Private Key</label>
-                        <input type="password" id="privateKeyInput" placeholder="Enter your 64-character private key securely">
-                    </div>
-                    <button id="mintBtn" class="button-primary">
-                        <i class="fa-solid fa-cubes"></i> Mint to Blockchain
-                    </button>
-                </div>
             </section>
             <div id="status" class="status-box">
                 <p>Application is ready.</p>
@@ -66,15 +51,19 @@
         <div id="Verifier" class="tab-content">
             <section class="content-card">
                 <button id="loadVerifyFileBtn" class="button-primary">
-                    <i class="fa-solid fa-file-import"></i> Load Certificate File (.txt)
+                    <i class="fa-solid fa-file-import"></i>Load Wipe Data File (.json) for Verification
                 </button>
                 <div class="input-group">
-                    <label for="tokenIdInput">Token ID</label>
-                    <input type="number" id="tokenIdInput" placeholder="e.g., 0, 1, 2...">
+                    <label for="tokenIdInput">Certificate ID</label>
+                    <!-- I am assuming your style targets the input element directly or its parent. -->
+                    <input type="text" id="tokenIdInput" placeholder="e.g., uuid-1234-5678">
                 </div>
-                <button id="verifyBtn" class="button-primary" disabled>
-                    <i class="fa-solid fa-user-shield"></i> Verify Authenticity
-                </button>
+                 <!-- The verify button is now correctly placed inside the section and centered -->
+                <div class="center-container">
+                    <button id="verifyBtn" class="button-primary" disabled>
+                        <i class="fa-solid fa-user-shield"></i> Verify Authenticity
+                    </button>
+                </div>
             </section>
             <div id="verifyStatus" class="status-box">
                 <p>Verifier is ready.</p>
