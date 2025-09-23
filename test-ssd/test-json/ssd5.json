@@ -1,0 +1,41 @@
+{
+  "certificate_id": "uuid-1111-2222",
+  "generated_by": "DataWipe Tool v1.0",
+  "generated_at": "2025-09-21T11:07:30Z",
+  "operator": "analyst1",
+  "host": "rhel-box-3",
+  "device": {
+    "device_name": "/dev/sdd",
+    "device_type": "SSD",
+    "serial_number": "KING9320SS",
+    "model": "Kingston KC600",
+    "capacity_bytes": 256464998400,
+    "logical_block_size": 512,
+    "rotational": false
+  },
+  "wipe_process": {
+    "wipe_method": "software_overwrite_7pass",
+    "start_time": "2025-09-21T11:09:00Z",
+    "end_time": "2025-09-21T11:53:00Z",
+    "duration_seconds": 2640,
+    "passes": 7,
+    "chunk_size": 4194304,
+    "errors": []
+  },
+  "verification": {
+    "pre_wipe_hash": "ca34ba23ef...",
+    "post_wipe_hash": "ff44cc11dd...",
+    "verification_status": "success"
+  },
+  "audit": {
+    "related_logs": [
+      "logs/verify_hash.txt",
+      "logs/kc600_status.log"
+    ],
+    "script_versions": {
+      "sector_hash.py": "v3.55",
+      "wiping.sh": "v5.1"
+    },
+    "digital_signature": "eyJvbn84..."
+  }
+}

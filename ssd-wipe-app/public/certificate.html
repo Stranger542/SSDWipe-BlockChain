@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wipe Certificate</title>
+    <link rel="stylesheet" href="style.css">
+   <style>
+    /* Reset and base styles for a clean, print-like document */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e9e9e9; /* Light grey background for contrast */
+        color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+    .certificate-container {
+        width: 100%;
+        max-width: 800px; /* Wider for a document feel */
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        padding: 2.5rem;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    /* Title and Section Headers */
+    h1 {
+        text-align: center;
+        color: #002060; /* Dark blue */
+        font-size: 1.8rem;
+        margin-bottom: 2.5rem;
+    }
+    h2 {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Table Styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+    }
+    td {
+        border: 1px solid #333;
+        padding: 8px 12px;
+        font-size: 1rem;
+    }
+
+    /* Label Cell Colors */
+    .label-blue {
+        background-color: #cceeff;
+        font-weight: bold;
+        width: 150px; /* Fixed width for labels */
+    }
+    .label-green {
+        background-color: #d4edda;
+        font-weight: bold;
+        width: 150px; /* Fixed width for labels */
+    }
+
+    /* Footer Text */
+    .footer-text {
+        margin-top: 2.5rem;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    /* Footer Link */
+    .cert-footer {
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .button-secondary {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #002060;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+    .button-secondary:hover {
+        background-color: #003399;
+    }
+</style>
+</head>
+<body>
+    <div class="certificate-container">
+        <h1>SSD WIPE CERTIFICATE OF DATA DESTRUCTION</h1>
+
+        <h2>Device Information:</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="label-blue">Device Type:</td>
+                    <td id="cert-type">SSD</td> </tr>
+                <tr>
+                    <td class="label-blue">Model:</td>
+                    <td id="cert-model">-</td>
+                </tr>
+                <tr>
+                    <td class="label-blue">Serial:</td>
+                    <td id="cert-serial">-</td>
+                </tr>
+                <tr>
+                    <td class="label-blue">Capacity:</td>
+                    <td id="cert-capacity">-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Wipe Process:</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="label-green">Method:</td>
+                    <td id="cert-wipe-method">-</td>
+                </tr>
+                <tr>
+                    <td class="label-green">Started:</td>
+                    <td id="cert-start-time">-</td>
+                </tr>
+                <tr>
+                    <td class="label-green">Finished:</td>
+                    <td id="cert-end-time">-</td>
+                </tr>
+                <tr>
+                    <td class="label-green">Duration:</td>
+                    <td id="cert-duration">-</td>
+                </tr>
+                <tr>
+                    <td class="label-green">Status:</td>
+                    <td id="cert-verification">-</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p class="footer-text">
+            This document certifies that the storage device listed above has been sanitized of all data.
+            Operator: <span id="cert-operator">-</span>
+            on Host: <span id="cert-host">-</span>.
+            Certificate ID: <span id="cert-id">-</span>.
+        </p>
+
+        <div class="cert-footer">
+             <a id="verify-link" href="#" target="_blank" class="button-secondary">Verify on Blockchain</a>
+        </div>
+    </div>
+
+    <script src="./certificate-renderer.js"></script>
+</body>
+</html>

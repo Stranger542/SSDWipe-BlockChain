@@ -32,7 +32,25 @@ const verifyBtn = document.getElementById('verifyBtn');
 const verifyStatus = document.getElementById('verifyStatus');
 
 // --- Minter Helper Functions ---
-function updateStatus(message, isError = false) { statusDiv.innerHTML = `<p>${message}</p>`; statusDiv.style.color = isError ? 'red' : 'black'; }
+function updateStatus(message, isError = false, data = null) {
+    statusDiv.style.color = isError ? 'red' : 'black';
+    
+    if (!isError && data && data.hash && data.certificateId) {
+        // Create a clickable link if the minting was successful
+        statusDiv.innerHTML = `
+            <p>✅ Data stored successfully! <a href="#" id="view-cert-link">View Certificate</a></p>
+            <p style="font-size: 0.8rem; color: grey;">Tx Hash: ${data.hash}</p>
+        `;
+        document.getElementById('view-cert-link').addEventListener('click', () => {
+            window.electronAPI.openCertificateWindow({
+                id: data.certificateId,
+                hash: data.hash
+            });
+        });
+    } else {
+        statusDiv.innerHTML = `<p>${message}</p>`;
+    }
+}
 function updateDetails(data) {
     if (data && data.device) { // Check that data and the nested 'device' object exist
         detailsDiv.innerHTML = `
@@ -61,18 +79,19 @@ loadFileBtn.addEventListener('click', async () => {
 });
 
 mintBtn.addEventListener('click', async () => {
-    const privateKey = privateKeyInput.value.trim();
-    if (!wipeData) { /*...*/ return; }
-    if (privateKey.length < 64) { /*...*/ return; }
-
+    if (!wipeData) {
+        updateStatus("Please load a wipe data .json file first.", true);
+        return;
+    }
     updateStatus("Minting data to blockchain...");
     mintBtn.disabled = true;
-    
-    // Add the private key to the data object
-    wipeData.privateKey = privateKey; 
-    const result = await window.electronAPI.storeCertificate({ detailedData: wipeData, privateKey: privateKey });
+    const result = await window.electronAPI.storeCertificate({ detailedData: wipeData });
     if (result.success) {
-        updateStatus(`✅ Data stored successfully! Tx Hash: ${result.hash}`, false);
+        // Pass the full result and the certificateId to updateStatus
+        updateStatus("Success!", false, { 
+            hash: result.hash, 
+            certificateId: wipeData.certificate_id 
+        });
     } else {
         updateStatus(`Error: ${result.error}`, true);
     }

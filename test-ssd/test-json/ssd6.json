@@ -1,0 +1,41 @@
+{
+  "certificate_id": "uuid-3333-8888",
+  "generated_by": "DataWipe Tool v1.0",
+  "generated_at": "2025-09-18T06:11:10Z",
+  "operator": "techops",
+  "host": "debian-lab-12",
+  "device": {
+    "device_name": "/dev/sde",
+    "device_type": "SSD",
+    "serial_number": "MZVLB256HBJQ",
+    "model": "Samsung 970 EVO Plus",
+    "capacity_bytes": 256060514304,
+    "logical_block_size": 4096,
+    "rotational": false
+  },
+  "wipe_process": {
+    "wipe_method": "hardware_secure_erase",
+    "start_time": "2025-09-18T06:15:00Z",
+    "end_time": "2025-09-18T06:36:06Z",
+    "duration_seconds": 1266,
+    "passes": 1,
+    "chunk_size": 8388608,
+    "errors": []
+  },
+  "verification": {
+    "pre_wipe_hash": "ad44cf44ef...",
+    "post_wipe_hash": "00008899aa...",
+    "verification_status": "success"
+  },
+  "audit": {
+    "related_logs": [
+      "logs/secure_erase.log",
+      "logs/nvme_smart.txt"
+    ],
+    "script_versions": {
+      "sector_hash.py": "v3.10",
+      "wiping.sh": "v3.98"
+    },
+    "digital_signature": "eyJhwe981..."
+  }
+}
