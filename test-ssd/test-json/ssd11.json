@@ -1,0 +1,41 @@
+{
+  "certificate_id": "uuid-4529-4241",
+  "generated_by": "DataWipe Tool v1.0",
+  "generated_at": "2025-09-23T06:14:00Z",
+  "operator": "engteam",
+  "host": "srv-dc-22",
+  "device": {
+    "device_name": "/dev/nvme2n1",
+    "device_type": "SSD",
+    "serial_number": "SDMX2023XYZ",
+    "model": "SanDisk Extreme Pro",
+    "capacity_bytes": 2000409262080,
+    "logical_block_size": 4096,
+    "rotational": false
+  },
+  "wipe_process": {
+    "wipe_method": "hardware_secure_erase",
+    "start_time": "2025-09-23T06:16:43Z",
+    "end_time": "2025-09-23T06:40:00Z",
+    "duration_seconds": 1397,
+    "passes": 1,
+    "chunk_size": 8388608,
+    "errors": []
+  },
+  "verification": {
+    "pre_wipe_hash": "af44ab11cd...",
+    "post_wipe_hash": "ffee2345bb...",
+    "verification_status": "success"
+  },
+  "audit": {
+    "related_logs": [
+      "logs/sandisk_erase.log",
+      "logs/secure_wipe_report.txt"
+    ],
+    "script_versions": {
+      "sector_hash.py": "v4.20",
+      "wiping.sh": "v6.25"
+    },
+    "digital_signature": "eyJdh349hC..."
+  }
+}

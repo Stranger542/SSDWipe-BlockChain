@@ -1,5 +1,5 @@
 {
-  "certificate_id": "uuid-3698-8520",
+  "certificate_id": "uuid-3264-9520",
   "generated_by": "DataWipe Tool v1.0",
   "generated_at": "2025-09-15T22:34:00Z",
   "operator": "secadmin",
@@ -7,7 +7,7 @@
   "device": {
     "device_name": "/dev/sdf",
     "device_type": "SSD",
-    "serial_number": "SDF986LAB",
+    "serial_number": "SDFTHSB5683NAB",
     "model": "SanDisk Ultra 3D",
     "capacity_bytes": 1000204886016,
     "logical_block_size": 4096,

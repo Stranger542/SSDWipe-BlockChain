@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>SSD Wipe Certificate Tool</title>
+    <title>SSD Wipe Certificate Minter</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -13,56 +13,27 @@
 
     <main class="app-container">
         <header>
-            <h1><i class="fa-solid fa-shield-halved"></i> SSD Wipe Certificate Tool</h1>
+            <h1><i class="fa-solid fa-shield-halved"></i> SSD Wipe Certificate Minter</h1>
+            <p style="color: var(--color-text-light); text-align: center; margin-top: -1.5rem; margin-bottom: 2rem;">
+                Load a wipe data file to mint a permanent, verifiable certificate on the blockchain.
+            </p>
         </header>
 
-        <div class="tab-nav">
-            <button class="tab-link active" onclick="openTab(event, 'Minter')">
-                <i class="fa-solid fa-award"></i> Mint Certificate
+        <section class="content-card">
+            <button id="loadFileBtn" class="button-primary">
+                <i class="fa-solid fa-file-arrow-up"></i> 1. Load Wipe Data File (.json)
             </button>
-            <button class="tab-link" onclick="openTab(event, 'Verifier')">
-                <i class="fa-solid fa-check-double"></i> Verify Certificate
-            </button>
-        </div>
-
-      <div id="Minter" class="tab-content" style="display: block;">
-    <section class="content-card">
-        <button id="loadFileBtn" class="button-primary">
-            <i class="fa-solid fa-file-arrow-up"></i> 1. Load Wipe Data File (.json)
-        </button>
-        <div id="details" class="details-box">
-            <p><strong>Status:</strong> Waiting for file...</p>
-        </div>
-
-        <button id="mintBtn" class="button-primary" disabled>
-            <i class="fa-solid fa-cubes"></i> 2. Mint Certificate to Blockchain
-        </button>
-    </section>
-    <div id="status" class="status-box">
-        <p>Application is ready.</p>
-    </div>
-</div>
-
-        <div id="Verifier" class="tab-content">
-            <section class="content-card">
-                <button id="loadVerifyFileBtn" class="button-primary">
-                    <i class="fa-solid fa-file-import"></i>Load Wipe Data File (.json) for Verification
-                </button>
-                <div class="input-group">
-                    <label for="tokenIdInput">Certificate ID</label>
-                    <!-- I am assuming your style targets the input element directly or its parent. -->
-                    <input type="text" id="tokenIdInput" placeholder="e.g., uuid-1234-5678">
-                </div>
-                 <!-- The verify button is now correctly placed inside the section and centered -->
-                <div class="center-container">
-                    <button id="verifyBtn" class="button-primary" disabled>
-                        <i class="fa-solid fa-user-shield"></i> Verify Authenticity
-                    </button>
-                </div>
-            </section>
-            <div id="verifyStatus" class="status-box">
-                <p>Verifier is ready.</p>
+            <div id="details" class="details-box">
+                <p><strong>Status:</strong> Waiting for file...</p>
             </div>
+
+            <button id="mintBtn" class="button-primary" disabled>
+                <i class="fa-solid fa-cubes"></i> 2. Mint Certificate to Blockchain
+            </button>
+        </section>
+
+        <div id="status" class="status-box">
+            <p>Application is ready.</p>
         </div>
     </main>
 

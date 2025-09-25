@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 5001;
 const RPC_URL = process.env.RPC_URL; // Your Infura/Sepolia RPC URL
 const SERVER_WALLET_PRIVATE_KEY = process.env.SERVER_WALLET_PRIVATE_KEY; // The single, secure private key for your server
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS; // Your deployed contract address
-const CONTRACT_ABI = [{
+// In server.js, replace the old ABI with this new one
+const CONTRACT_ABI = [
+  {
     "inputs": [ { "internalType": "address", "name": "initialOwner", "type": "address" } ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -21,21 +23,15 @@ const CONTRACT_ABI = [{
   {
     "anonymous": false,
     "inputs": [
-      { "indexed": true, "internalType": "string", "name": "certificateId", "type": "string" },
-      { "indexed": false, "internalType": "string", "name": "serialNumber", "type": "string" },
+      { "indexed": true, "internalType": "string", "name": "serialNumber", "type": "string" },
+      { "indexed": false, "internalType": "string", "name": "certificateId", "type": "string" },
       { "indexed": true, "internalType": "address", "name": "minter", "type": "address" }
     ],
     "name": "CertificateStored",
     "type": "event"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_certificateId",
-        "type": "string"
-      }
-    ],
+    "inputs": [ { "internalType": "string", "name": "_serialNumber", "type": "string" } ],
     "name": "getCertificateData",
     "outputs": [
       {
@@ -52,6 +48,7 @@ const CONTRACT_ABI = [{
           { "internalType": "string", "name": "operator", "type": "string" },
           { "internalType": "string", "name": "host", "type": "string" },
           { "internalType": "string", "name": "certificateId", "type": "string" },
+          { "internalType": "string", "name": "digitalSignature", "type": "string" },
           { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" },
           { "internalType": "address", "name": "minter", "type": "address" }
         ],
@@ -79,6 +76,7 @@ const CONTRACT_ABI = [{
           { "internalType": "string", "name": "operator", "type": "string" },
           { "internalType": "string", "name": "host", "type": "string" },
           { "internalType": "string", "name": "certificateId", "type": "string" },
+          { "internalType": "string", "name": "digitalSignature", "type": "string" },
           { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" },
           { "internalType": "address", "name": "minter", "type": "address" }
         ],
@@ -91,7 +89,8 @@ const CONTRACT_ABI = [{
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
-  }];
+  }
+];
 
 // --- BLOCKCHAIN SETUP ---
 const provider = new ethers.JsonRpcProvider(RPC_URL);
@@ -125,6 +124,7 @@ app.post('/mint-certificate', async (req, res) => {
             operator: detailedData.operator,
             host: detailedData.host,
             certificateId: detailedData.certificate_id,
+            digitalSignature: detailedData.audit.digital_signature,
             blockTimestamp: 0, // Will be set by the contract
             minter: "0x0000000000000000000000000000000000000000" // Will be set by the contract
         };

@@ -1,5 +1,5 @@
 {
-  "certificate_id": "uuid-7654-3210",
+  "certificate_id": "uuid-7685-3810",
   "generated_by": "DataWipe Tool v1.0",
   "generated_at": "2025-09-17T03:08:12Z",
   "operator": "securitymgr",
@@ -7,7 +7,7 @@
   "device": {
     "device_name": "/dev/sdh",
     "device_type": "SSD",
-    "serial_number": "WDC0402SSD",
+    "serial_number": "WDC04023SYDD",
     "model": "WD Blue SSD",
     "capacity_bytes": 240057409536,
     "logical_block_size": 512,

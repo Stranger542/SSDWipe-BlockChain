@@ -1,5 +1,5 @@
 {
-  "certificate_id": "uuid-5555-9999",
+  "certificate_id": "uuid-1453-35989",
   "generated_by": "DataWipe Tool v1.0",
   "generated_at": "2025-09-19T09:17:44Z",
   "operator": "opmgr",
@@ -7,7 +7,7 @@
   "device": {
     "device_name": "/dev/sdg",
     "device_type": "SSD",
-    "serial_number": "TOSH9876SSD",
+    "serial_number": "TOSFUYAVCI98745SSD",
     "model": "Toshiba TR200",
     "capacity_bytes": 480102474752,
     "logical_block_size": 4096,

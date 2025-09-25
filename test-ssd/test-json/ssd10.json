@@ -4,8 +4,7 @@
   "generated_at": "2025-09-25T00:02:36Z",
   "operator": "datatech",
   "host": "vm-alpine-08",
-  "device": {
-    "device_name": "/dev/nvme1n1",
+  "device": {   "device_name": "/dev/nvme1n1",
     "device_type": "SSD",
     "serial_number": "INTELB123NV",
     "model": "Intel 660p SSD",
